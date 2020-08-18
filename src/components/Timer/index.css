@@ -11,4 +11,38 @@
   text-align: center;
   height: 300px;
   width: 300px;
+  position: relative;
+}
+
+.Timer__text-info {
+  position: absolute;
+  top: 50px;
+  color: #17a2b8;
+  align-self: center;
+  font-size: 1rem;
+}
+
+.Timer__input {
+  position: absolute;
+  top: 90px;
+  border: none;
+  background-color: #f0f0f0;
+  color: #26cbf5;
+  font-size: 46px;
+  font-weight: 600;
+  outline-width: 0;
+  text-align: center;
+  vertical-align: middle;
+  width: 300px;
+  align-self: center;
+}
+
+.Timer__panel {
+  position: absolute;
+  bottom: 0;
+}
+
+.Timer__panel > div {
+  width: 300px;
+  height: 80px;
 }
