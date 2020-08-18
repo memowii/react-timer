@@ -8,7 +8,9 @@ export function Timer() {
   return (
     <div className="Timer">
       <div className="Timer__text-info">00:00:00:00</div>
-      <input className="Timer__input" maxLength="6" defaultValue="0" />
+
+      <input className="Timer__input" maxLength="6" placeholder="0" />
+
       <div className="Timer__panel">
         <div className="btn-group">
           <button className="btn btn-lg btn-success" disabled="">
@@ -16,6 +18,7 @@ export function Timer() {
               <FontAwesomeIcon icon={faPlay} size="2x" className="s" />
             </div>
           </button>
+          
           <button className="btn btn-lg btn-primary">
             <div className="text-left">
               <FontAwesomeIcon icon={faSync} size="2x" className="s" />
