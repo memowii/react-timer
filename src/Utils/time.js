@@ -2,6 +2,8 @@ export class Time {
   static getTime(timeInMilliseconds) {
     let time = timeInMilliseconds;
 
+    if (time === 0) return "00:00:00:00";
+
     const hours = this.formatUnitOfTime(Math.floor(time / (60 * 60 * 1000)));
 
     time = time % (60 * 60 * 1000);
