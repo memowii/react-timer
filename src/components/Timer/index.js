@@ -21,7 +21,7 @@ export function Timer() {
 
   const setTimes = (time) => {
     setTimerInput(time);
-    setCalcTime(Time.getTime(time));
+    setCalcTime(Time.getTime(time * 1000));
   };
 
   const resetTimer = () => {
