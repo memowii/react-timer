@@ -22,6 +22,11 @@
   font-size: 1rem;
 }
 
+.Timer__text-info--big {
+  top: 100px;
+  font-size: 3rem;
+}
+
 .Timer__input {
   position: absolute;
   top: 90px;
