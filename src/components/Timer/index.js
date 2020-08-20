@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faSync, faStop } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,9 +15,9 @@ export function Timer() {
   const onSecondsChanged = (value) => {
     const enteredSeconds = parseInt(value);
     if (enteredSeconds && typeof enteredSeconds === "number") {
-      const milliseconds = enteredSeconds * 1000;
-      setMilliseconds(milliseconds);
-      setTimeInfo(Time.getTime(milliseconds));
+      const enteredMilliseconds = enteredSeconds * 1000;
+      setMilliseconds(enteredMilliseconds);
+      setTimeInfo(Time.getTime(enteredMilliseconds));
       setSeconds(enteredSeconds);
     } else {
       setMilliseconds(0);
@@ -39,17 +39,18 @@ export function Timer() {
   const startTimer = () => {
     setTimerInterval(
       setInterval(() => {
-        console.log("do");
-        setMilliseconds((state) => {
-          console.log("do 2");
-          return state - 10;
-        });
-        setTimeInfo(Time.getTime(milliseconds));
+        if (milliseconds > 0) {
+          setMilliseconds((prevMilliseconds) => prevMilliseconds - 10);
+        }
       }, 10)
     );
   };
 
   const stopTimer = () => {};
+
+  useEffect(() => {
+    setTimeInfo(Time.getTime(milliseconds));
+  }, [milliseconds]);
 
   return (
     <div className="Timer">
