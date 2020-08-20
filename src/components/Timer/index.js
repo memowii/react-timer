@@ -39,9 +39,7 @@ export function Timer() {
   const startTimer = () => {
     setTimerInterval(
       setInterval(() => {
-        if (milliseconds > 0) {
-          setMilliseconds((prevMilliseconds) => prevMilliseconds - 10);
-        }
+        setMilliseconds((prevMilliseconds) => prevMilliseconds - 10);
       }, 10)
     );
   };
@@ -50,6 +48,14 @@ export function Timer() {
 
   useEffect(() => {
     setTimeInfo(Time.getTime(milliseconds));
+    
+    if (milliseconds < 0) {
+      setMilliseconds(0);
+      setSeconds(0);
+      setIsTimerStarted(false);
+      setTimeInfo(Time.getTime(0));
+      clearInterval(timerInterval);
+    }
   }, [milliseconds]);
 
   return (
