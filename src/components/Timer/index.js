@@ -32,8 +32,11 @@ export function Timer() {
   };
 
   const resetTimer = () => {
-    setTimes(0);
-    setIsTimerStarted(false);
+    setMilliseconds(0);
+      setSeconds(0);
+      setIsTimerStarted(false);
+      setTimeInfo(Time.getTime(0));
+      clearInterval(timerInterval);
   };
 
   const startTimer = () => {
@@ -44,11 +47,20 @@ export function Timer() {
     );
   };
 
-  const stopTimer = () => {};
+  const stopTimer = () => {
+    setMilliseconds(mil => {
+      setSeconds(Math.floor(mil / 1000))
+      setTimeInfo(Time.getTime(mil));
+      clearInterval(timerInterval)
+
+      return mil
+    })
+    setIsTimerStarted(false);
+  };
 
   useEffect(() => {
     setTimeInfo(Time.getTime(milliseconds));
-    
+
     if (milliseconds < 0) {
       setMilliseconds(0);
       setSeconds(0);
@@ -88,7 +100,9 @@ export function Timer() {
                 setIsTimerStarted(true);
                 startTimer();
               } else {
-                setIsTimerStarted(false);
+                // setIsTimerStarted(false);
+                stopTimer();
+
               }
             }}
           >
