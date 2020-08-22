@@ -11,6 +11,7 @@ export function Timer() {
   const [timeInfo, setTimeInfo] = useState(Time.getTime(0));
   const [isTimerStarted, setIsTimerStarted] = useState(false);
   const [timerInterval, setTimerInterval] = useState(null);
+  const [isAlmostFinished, setIsAlmostFinished] = useState(false);
 
   const onSecondsChanged = (value) => {
     const enteredSeconds = parseInt(value);
@@ -33,13 +34,14 @@ export function Timer() {
 
   const resetTimer = () => {
     setMilliseconds(0);
-      setSeconds(0);
-      setIsTimerStarted(false);
-      setTimeInfo(Time.getTime(0));
-      clearInterval(timerInterval);
+    setSeconds(0);
+    setIsTimerStarted(false);
+    setTimeInfo(Time.getTime(0));
+    clearInterval(timerInterval);
   };
 
   const startTimer = () => {
+    setIsTimerStarted(true);
     setTimerInterval(
       setInterval(() => {
         setMilliseconds((prevMilliseconds) => prevMilliseconds - 10);
@@ -48,18 +50,24 @@ export function Timer() {
   };
 
   const stopTimer = () => {
-    setMilliseconds(mil => {
-      setSeconds(Math.floor(mil / 1000))
+    setMilliseconds((mil) => {
+      setSeconds(Math.floor(mil / 1000));
       setTimeInfo(Time.getTime(mil));
-      clearInterval(timerInterval)
+      clearInterval(timerInterval);
 
-      return mil
-    })
+      return mil;
+    });
     setIsTimerStarted(false);
+    setIsAlmostFinished(false)
   };
 
   useEffect(() => {
     setTimeInfo(Time.getTime(milliseconds));
+    
+    if (isTimerStarted && milliseconds < 10 * 1000) {
+      console.log('in inf');
+      setIsAlmostFinished(true);
+    }
 
     if (milliseconds < 0) {
       setMilliseconds(0);
@@ -72,7 +80,10 @@ export function Timer() {
 
   return (
     <div className="Timer">
-      <div className="Timer__text-info" hidden={isTimerStarted}>
+      <div
+        className="Timer__text-info"
+        hidden={isTimerStarted}
+      >
         {timeInfo}
       </div>
 
@@ -85,7 +96,9 @@ export function Timer() {
           onChange={(e) => onSecondsChanged(e.target.value)}
         />
       ) : (
-        <div className="Timer__text-info Timer__text-info--big">{timeInfo}</div>
+        <div className={`Timer__text-info Timer__text-info--big ${
+          isAlmostFinished ? "Timer__text-info--red" : ""
+        }`}>{timeInfo}</div>
       )}
 
       <div className="Timer__panel">
@@ -97,12 +110,9 @@ export function Timer() {
             disabled={!(milliseconds > 0)}
             onClick={() => {
               if (!isTimerStarted) {
-                setIsTimerStarted(true);
                 startTimer();
               } else {
-                // setIsTimerStarted(false);
                 stopTimer();
-
               }
             }}
           >
