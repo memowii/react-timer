@@ -37,6 +37,7 @@ export function Timer() {
     setSeconds(0);
     setIsTimerStarted(false);
     setTimeInfo(Time.getTime(0));
+    setIsAlmostFinished(false);
     clearInterval(timerInterval);
   };
 
@@ -65,7 +66,6 @@ export function Timer() {
     setTimeInfo(Time.getTime(milliseconds));
     
     if (isTimerStarted && milliseconds < 10 * 1000) {
-      console.log('in inf');
       setIsAlmostFinished(true);
     }
 
