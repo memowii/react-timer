@@ -79,7 +79,7 @@ it("tests Timer when it is started", () => {
   expect(btnStartStop.classList.contains("btn-dark")).toBe(true);
 });
 
-  
+
 
 /*
 it("tests Timer functionalities", () => { 
