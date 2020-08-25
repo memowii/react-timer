@@ -37,7 +37,7 @@ it("renders Timer", () => {
   ).toBe("svg");
 });
 
-it("changes elements when seconds are entering", () => {
+it("tests Timer when seconds are entered", () => {
   act(() => {
     render(<Timer />, container);
   });
@@ -55,22 +55,62 @@ it("changes elements when seconds are entering", () => {
   expect(btnStart.disabled).toBe(false);
 });
 
-// it('shows errors when adding employee', () => {
-//   act(() => {
-//     render(<App />, container);
-//   });
-//   const expectedClass = 'is-invalid';
-//   const button = document.querySelector('[type=submit]');
-//   expect(button.innerHTML).toBe('Add Employee');
+it("tests Timer when it is started", () => {
+  act(() => {
+    render(<Timer />, container);
+  });
 
-//   act(() => {
-//     button.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-//     input.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-//   });
+  const timerInput = container.querySelector("input.Timer__input");
+  const btnStartStop = container.querySelector(".Timer__panel .btn-success");
 
-//   const nameInput = document.querySelector('form input[name=name]');
-//   expect(nameInput.className).toEqual(expect.stringContaining(expectedClass));
+  act(() => {
+    Simulate.change(timerInput, { target: { value: "100" } });
+  });
 
-//   const nameEmail = document.querySelector('form input[name=email]');
-//   expect(nameInput.className).toEqual(expect.stringContaining(expectedClass));
-// });
+  act(() => {
+    btnStartStop.dispatchEvent(new MouseEvent("click", { bubbles: true }))
+  })
+
+  const timerTextInfo = container.querySelector(
+    ".Timer__text-info.Timer__text-info--big"
+  );  
+
+  expect(timerTextInfo.textContent.slice(3, 5)).toBe("01");
+  expect(btnStartStop.classList.contains("btn-dark")).toBe(true);
+});
+
+  
+
+/*
+it("tests Timer functionalities", () => { 
+  let timerInput = container.querySelector("input.Timer__input");
+  const timerTextInfo = container.querySelector(".Timer__text-info");
+  const btnStart = container.querySelector(".Timer__panel .btn-success");
+  const btnRestart = container.querySelector(".Timer__panel .btn-primary");
+
+  act(() => {
+    Simulate.change(timerInput, { target: { value: "100" } });
+  });
+
+  expect(timerInput.value).toBe("100");
+  expect(timerTextInfo.textContent).toBe("00:01:40:00");
+  expect(btnStart.disabled).toBe(false);
+
+  act(() => {
+    btnStart.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+
+  expect(btnStart.classList.contains("btn-dark")).toBe(true);
+  expect(timerTextInfo.textContent.slice(3, 5)).toBe("01");
+
+  act(() => {
+    btnRestart.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+
+  timerInput = container.querySelector("input.Timer__input");
+
+  expect(timerInput.value).toBe("0");
+  expect(timerTextInfo.textContent).toBe("00:00:00:00");
+  expect(btnStart.disabled).toBe(true);
+});
+*/
