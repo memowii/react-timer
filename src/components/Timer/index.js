@@ -17,19 +17,16 @@ export function Timer() {
     const enteredSeconds = parseInt(value);
     if (enteredSeconds && typeof enteredSeconds === "number") {
       const enteredMilliseconds = enteredSeconds * 1000;
-      setMilliseconds(enteredMilliseconds);
-      setTimeInfo(Time.getTime(enteredMilliseconds));
-      setSeconds(enteredSeconds);
+      setTimes(enteredMilliseconds, enteredSeconds)
     } else {
-      setMilliseconds(0);
-      setTimeInfo(Time.getTime(0));
-      setSeconds(0);
+      setTimes(0, 0)
     }
   };
 
-  const setTimes = (time) => {
-    setMilliseconds(time);
-    setTimeInfo(Time.getTime(time / 1000));
+  const setTimes = (milliseconds, seconds) => {
+    setMilliseconds(milliseconds);
+    setTimeInfo(Time.getTime(milliseconds));
+    setSeconds(seconds);
   };
 
   const resetTimer = () => {
@@ -59,12 +56,12 @@ export function Timer() {
       return mil;
     });
     setIsTimerStarted(false);
-    setIsAlmostFinished(false)
+    setIsAlmostFinished(false);
   };
 
   useEffect(() => {
     setTimeInfo(Time.getTime(milliseconds));
-    
+
     if (isTimerStarted && milliseconds < 10 * 1000) {
       setIsAlmostFinished(true);
     }
@@ -78,12 +75,11 @@ export function Timer() {
     }
   }, [milliseconds]);
 
+  useEffect(() => () => clearInterval(timerInterval), [timerInterval]);
+
   return (
     <div className="Timer">
-      <div
-        className="Timer__text-info"
-        hidden={isTimerStarted}
-      >
+      <div className="Timer__text-info" hidden={isTimerStarted}>
         {timeInfo}
       </div>
 
@@ -96,9 +92,13 @@ export function Timer() {
           onChange={(e) => onSecondsChanged(e.target.value)}
         />
       ) : (
-        <div className={`Timer__text-info Timer__text-info--big ${
-          isAlmostFinished ? "Timer__text-info--red" : ""
-        }`}>{timeInfo}</div>
+        <div
+          className={`Timer__text-info Timer__text-info--big ${
+            isAlmostFinished ? "Timer__text-info--red" : ""
+          }`}
+        >
+          {timeInfo}
+        </div>
       )}
 
       <div className="Timer__panel">
