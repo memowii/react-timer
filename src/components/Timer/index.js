@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faSync, faStop } from "@fortawesome/free-solid-svg-icons";
 
@@ -57,6 +57,10 @@ export function Timer() {
     clearInterval(state.timerInterval);
     dispatch({ type: "TIMER_INTERVAL", payload: null });
   };
+
+  useEffect(() => () => clearInterval(state.timerInterval), [
+    state.timerInterval,
+  ]);
 
   return (
     <div className="Timer">
